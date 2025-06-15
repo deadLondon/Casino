@@ -1,0 +1,185 @@
+﻿@if (TempData["ShowWelcome"] != null && ViewBag.NickName != null)
+{
+    <div class="row">
+        <div class="alert bg-white text-black-50 welcome-alert">
+            Welcome, @ViewBag.NickName
+        </div>
+    </div>
+}   
+
+<div class="row container shadow-lg" style="background-color:whitesmoke; height:55vh;">
+    <div class="col-md-6 col-lg-6 col-sm-6">
+        <div class="win win-@ViewBag.WinColor">@ViewBag.WinNumber</div>
+        <div class="history d-flex" id="history"></div>
+    </div>
+
+    <div class="col-md-6 col-lg-6 col-sm-6 container">
+        <form asp-action="MakeBet" method="post">
+            <div class="row">
+                <div class="col-5">
+                    <input type="number" name="Number" value="-1" min="-1" max="36" width="40px" class="bet-form shadow" />
+
+                    <select name="Color" class="bet-form shadow">
+                        <option selected value="">Select color</option>
+                        <option value="red">Red</option>
+                        <option value="black">Black</option>
+                        <option value="green">Green</option>
+                    </select>
+
+                    <select name="EvenOdd" class="bet-form shadow">
+                        <option selected value="">Select odd or even</option>
+                        <option value="odd">Odd</option>
+                        <option value="even">Even</option>
+                    </select>
+
+                    <input type="number" name="Money" value="10" min="10" class="bet-form shadow" />
+
+                    <input type="button" value="Bet" class="btn-outline-success mt-3 shadow" onclick="makeBet(event)" />
+                </div>
+
+                <div class="col-7" style="margin-top: 20px;">
+                    <div id="bet-list" style="max-height: 300px; overflow-y: scroll;"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div id="timer" class="alert alert-warning text-black-50"></div>
+    <div id="period" style="display: none;">@ViewBag.Period</div>
+</div>
+
+<script>
+    let divTimer = document.getElementById("timer");
+    let period = document.getElementById("period").innerHTML;
+    let elapsed = 0;
+
+    setInterval(() => {
+        divTimer.innerHTML = "Game starts in " + (period - elapsed) + " seconds";
+        elapsed++;
+
+        if (elapsed > period) {
+            elapsed = 0;
+            displayHistory();
+            location.reload();
+        }
+    }, 1000);
+
+    window.addEventListener("DOMContentLoaded", () => {
+        const alert = document.querySelector(".welcome-alert");
+        if (alert) {
+            setTimeout(() => {
+                alert.classList.add("hide");
+                setTimeout(() => {
+                    alert.remove();
+                }, 800);
+            }, 5000);
+        }
+        displayHistory()
+    });
+
+        function makeBet(event){
+        const number = document.querySelector(`input[name="Number"]`).value;
+        const color = document.querySelector(`select[name="Color"]`).value;
+        const evenOdd = document.querySelector(`select[name="EvenOdd"]`).value;
+        const money = document.querySelector(`input[name="Money"]`).value;
+        let div = document.getElementById(`bet-list`);
+
+        const url = "/Roulette/ProcessBet?number="+number+"&color="+color+"&evenOdd="+evenOdd+"&money="+money;
+        let ao = new XMLHttpRequest();
+        ao.open("GET", url, true);
+        ao.onreadystatechange = function(){
+            if(ao.readyState == 4 && ao.status == 200){
+                div.innerHTML = "";
+                let list = JSON.parse(ao.responseText);
+
+                let t = document.createElement("table");
+                t.className = "table shadow-sm";
+                t.style.backgroundColor = "#f5f5f5";
+                t.style.borderRadius = "10px";
+                t.style.overflow = "hidden";
+                t.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.2)";
+                t.style.width = "100%";
+
+                let thead = document.createElement("thead");
+                thead.style.backgroundColor = "#e0e0e0";
+                let headRow = document.createElement("tr");
+
+                const headers = ["number","color", "money", "created at"];
+                headers.forEach(text => {
+                    let th = document.createElement("th");
+                    th.style.padding = "10px";
+                    th.style.textTransform = "uppercase";
+                    th.style.fontWeight = "bold";
+                    th.style.fontSize = "14px";
+                    th.textContent = text;
+                    headRow.appendChild(th);
+                });
+                thead.appendChild(headRow);
+                t.appendChild(thead);
+
+                let tbody = document.createElement("tbody");
+
+                for (let i = 0 ; i < list.length ; i++){
+                    let item = list[i];
+                    let tr = document.createElement("tr");
+                    tr.style.borderBottom = "1px solid #ccc";
+
+                    let td1 = document.createElement("td");
+                    td1.className = 'text-warning';
+                    td1.style.padding = "10px";
+                    td1.textContent = item.number;
+
+                    let td4 = document.createElement("td");
+                    td4.className = 'text-warning';
+                    td4.style.padding = "10px";
+                    td4.textContent = item.color;
+
+                    let td2 = document.createElement("td");
+                    td2.className = 'text-warning';
+                    td2.style.padding = "10px";
+                    td2.textContent = item.money;
+
+                    let td3 = document.createElement("td");
+                    td3.className = 'text-warning';
+                    td3.style.padding = "10px";
+                    td3.textContent = item.createdAt?.replace("T", " ").substring(0, 19);
+
+                    tr.appendChild(td1);
+                    tr.appendChild(td4);
+                    tr.appendChild(td2);
+                    tr.appendChild(td3);
+
+                    tbody.appendChild(tr);
+                }
+                t.appendChild(tbody);
+                div.appendChild(t);
+            }
+        }
+        ao.send();
+    }
+
+    function displayHistory(){
+        let div = document.getElementById("history");
+        const url = "/Roulette/GetHistory";
+        let ao = new XMLHttpRequest();
+        ao.open("GET", url, true);
+        ao.onreadystatechange = function(){
+            if(ao.readyState == 4 && ao.status == 200){
+                div.innerHTML = "";
+                let list = JSON.parse(ao.responseText);
+                for (let i = 0 ; i < list.length ; i++){
+                    let item = list[i];
+                    let cell = document.createElement("div");
+                    cell.textContent = item.number;
+                    cell.style.backgroundColor = item.color;
+                    cell.style.width = "26px";
+                    cell.style.height = "26px";
+                    div.appendChild(cell);
+                }
+            }
+        }
+        ao.send();
+    }
+</script>

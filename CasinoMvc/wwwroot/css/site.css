@@ -1,0 +1,112 @@
+﻿html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    font-family: 'Kanit', sans-serif;
+    text-transform: lowercase;
+    background: linear-gradient(145deg, #802525, #302f2f, #2c2c2c);
+    color: white;
+}
+
+.side-line {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 2px;
+    height: 100vh;
+    background-color: white;
+    z-index: 1000;
+}
+
+@keyframes slideUpFadeOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+}
+
+.welcome-alert.hide {
+    animation: slideUpFadeOut 0.8s ease forwards;
+}
+
+.win-black {
+    background-color: black;
+}
+.win-red {
+    background-color: red;
+}
+.win-green {
+    background-color: green;
+}
+
+.win {
+    border-radius: 5px;
+    color: white;
+    font-size: 140px;
+    margin-top: 20px;
+    width: 50%;
+    text-align: center;
+}
+.history {
+    color: whitesmoke;
+    font-size: 14px;
+    margin-top: 20px;
+    height: 26px;
+    width: 50%;
+    text-align: center;
+    justify-content:space-between;
+}
+
+.bet-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    width: 165px;
+    background-color: antiquewhite;
+    border-radius: 15px;
+    border-color: maroon;
+    border-width: 2px;
+}
+
+#bet-list::-webkit-scrollbar {
+    width: 4px; /* ширина вертикального скроллбара */
+}
+
+#bet-list::-webkit-scrollbar-track {
+    background: #f1f1f1 ; /* цвет фона полосы прокрутки */
+    border-radius: 10px;
+}
+
+#bet-list::-webkit-scrollbar-thumb {
+    background: #ffc107; /* цвет ползунка */
+    border-radius: 10px;
+}
+
+    #bet-list::-webkit-scrollbar-thumb:hover {
+        background: #e0a800; /* цвет ползунка при наведении */
+    }
+
+

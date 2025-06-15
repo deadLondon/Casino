@@ -1,0 +1,26 @@
+﻿@model Player
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h3>Player Cabinet</h3>
+<div class="d-flex justify-content-center align-items-center mt-5">
+    <div class="row container shadow-lg p-0" style="width:50%;">
+        <div class="left col-lg-3 col-md-3 col-sm-4">
+            <img src="data:image/png;base64,@Model.Avatar" alt="Avatar" height="150px" class="rounded-circle pt-2"/>
+            <p>@Model.NickName</p>
+         <p>from : @Model.CreatedAt</p>
+        </div>
+        <div class="right col-lg-9 col-md-9 col-sm-8">
+            <hr/>
+            <h4>info</h4>
+            <hr />
+            <p>balance: @Model.Balance</p>
+            <hr />
+            <p>total wins: @Model.TotalWins</p>
+            <hr />
+            <p>total bets: @Model.TotalBets</p>
+        </div>
+    </div>
+</div>
