@@ -62,21 +62,23 @@ body {
 }
 
 .win {
-    border-radius: 5px;
     color: white;
     font-size: 140px;
     margin-top: 20px;
     width: 50%;
+    display: flex;
     text-align: center;
+    align-items: center;
+    justify-content: center;
 }
 .history {
     color: whitesmoke;
-    font-size: 14px;
+    font-size: 16px;
     margin-top: 20px;
-    height: 26px;
-    width: 50%;
+    height: 5px;
+    width: 60%;
     text-align: center;
-    justify-content:space-between;
+    justify-content: space-between;
 }
 
 .bet-form {
@@ -85,7 +87,7 @@ body {
     align-items: center;
     margin-top: 20px;
     width: 165px;
-    background-color: antiquewhite;
+    background-color: white;
     border-radius: 15px;
     border-color: maroon;
     border-width: 2px;

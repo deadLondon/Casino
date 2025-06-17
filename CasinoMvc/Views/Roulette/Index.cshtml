@@ -7,41 +7,36 @@
     </div>
 }   
 
-<div class="row container shadow-lg" style="background-color:whitesmoke; height:55vh;">
-    <div class="col-md-6 col-lg-6 col-sm-6">
+<div class="row container shadow-lg " style="background-color:whitesmoke; height:55vh;">
+    <div class="col-md-5 col-lg-5 col-sm-5 d-flex flex-column align-items-center justify-content-center" style="margin-bottom:132px">
         <div class="win win-@ViewBag.WinColor">@ViewBag.WinNumber</div>
         <div class="history d-flex" id="history"></div>
     </div>
 
-    <div class="col-md-6 col-lg-6 col-sm-6 container">
+    <div class="col-md-3 col-lg-3 col-sm-3 container">
         <form asp-action="MakeBet" method="post">
-            <div class="row">
-                <div class="col-5">
-                    <input type="number" name="Number" value="-1" min="-1" max="36" width="40px" class="bet-form shadow" />
+                    <input type="number" name="Number" placeholder="Choose from 0-36" min="-1" max="36" width="40px" class="bet-form" />
 
-                    <select name="Color" class="bet-form shadow">
+                    <select name="Color" class="bet-form">
                         <option selected value="">Select color</option>
                         <option value="red">Red</option>
                         <option value="black">Black</option>
                         <option value="green">Green</option>
                     </select>
 
-                    <select name="EvenOdd" class="bet-form shadow">
+                    <select name="EvenOdd" class="bet-form">
                         <option selected value="">Select odd or even</option>
                         <option value="odd">Odd</option>
                         <option value="even">Even</option>
                     </select>
 
-                    <input type="number" name="Money" value="10" min="10" class="bet-form shadow" />
+                    <input type="number" name="Money" min="10" placeholder="Your Stake:"class="bet-form" />
 
-                    <input type="button" value="Bet" class="btn-outline-success mt-3 shadow" onclick="makeBet(event)" />
-                </div>
-
-                <div class="col-7" style="margin-top: 20px;">
-                    <div id="bet-list" style="max-height: 300px; overflow-y: scroll;"></div>
-                </div>
-            </div>
+                    <input type="button" value="Bet" class="btn-outline-success mt-3 d-flex flex-column align-items-center justify-content-end" onclick="makeBet(event)" />
         </form>
+     </div>
+    <div class="col-md-4 col-lg-4 col-sm-4 mt-3">
+        <div id="bet-list" style="max-height: 300px; overflow-y: scroll;"></div>
     </div>
 </div>
 
